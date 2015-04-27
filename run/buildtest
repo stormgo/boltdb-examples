@@ -1,0 +1,9 @@
+#!/bin/sh
+#
+
+source ./run/build
+
+go test -v
+
+#cd cmd/bolt
+#go test
