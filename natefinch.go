@@ -9,7 +9,7 @@ import (
     "github.com/boltdb/bolt"
 )
 
-var world = []byte("world")
+var mynames = []byte("lastnames")
 
 func main() {
     db, err := bolt.Open("bolt.db", 0644, nil)
@@ -18,12 +18,12 @@ func main() {
     }
     defer db.Close()
 
-    key := []byte("hello")
-    value := []byte("Hello World!")
+    key := []byte("michael")
+    value := []byte("angerman")
 
     // store some data
     err = db.Update(func(tx *bolt.Tx) error {
-        bucket, err := tx.CreateBucketIfNotExists(world)
+        bucket, err := tx.CreateBucketIfNotExists(mynames)
         if err != nil {
             return err
         }
@@ -41,9 +41,9 @@ func main() {
 
     // retrieve the data
     err = db.View(func(tx *bolt.Tx) error {
-        bucket := tx.Bucket(world)
+        bucket := tx.Bucket(mynames)
         if bucket == nil {
-            return fmt.Errorf("Bucket %q not found!", world)
+            return fmt.Errorf("Bucket %q not found!", mynames)
         }
 
         val := bucket.Get(key)
@@ -58,4 +58,4 @@ func main() {
 }
 
 // output:
-// Hello World!
+// angerman
